@@ -1,150 +1,182 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Letter Light Maker</title>
+    <title>Letter Maker Studio</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="hero">
-      <div>
-        <h1>Letter Light Maker</h1>
-        <p>
-          Configure letras-caixa 3D iluminadas, veja o preview em tempo real e
-          estime o valor do projeto.
-        </p>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo-mark">◈</span>
+        <div>
+          <h1>LETRAMAKER</h1>
+          <small>v2.6.1</small>
+        </div>
       </div>
-      <button id="savePresetBtn" class="btn secondary">Salvar preset</button>
+      <div class="top-actions">
+        <button class="chip purple">Tutorial</button>
+        <button class="chip orange">New in v2.5</button>
+        <button class="chip ghost">Sign in</button>
+        <button class="chip blue">Go Pro</button>
+      </div>
     </header>
 
-    <main class="layout">
-      <section class="panel controls">
-        <h2>Configurações</h2>
-        <label>
-          Texto
-          <input id="textInput" type="text" maxlength="40" value="COMUNICACAO 3D" />
-        </label>
-
-        <div class="grid-2">
-          <label>
-            Fonte
-            <select id="fontSelect">
-              <option value="'Montserrat', sans-serif">Montserrat</option>
-              <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
-              <option value="'Arial Black', sans-serif">Arial Black</option>
-              <option value="'Roboto Slab', serif">Roboto Slab</option>
-            </select>
-          </label>
-          <label>
-            Alinhamento
-            <select id="alignSelect">
-              <option value="center">Centro</option>
-              <option value="left">Esquerda</option>
-              <option value="right">Direita</option>
-            </select>
-          </label>
-        </div>
-
-        <div class="grid-2">
-          <label>
-            Altura da letra (cm)
-            <input id="heightInput" type="number" min="5" max="200" value="35" />
-          </label>
-          <label>
-            Profundidade (cm)
-            <input id="depthInput" type="number" min="2" max="40" value="8" />
-          </label>
-        </div>
-
-        <div class="grid-2">
-          <label>
-            Espaçamento entre letras (cm)
-            <input id="spacingInput" type="number" min="0" max="15" step="0.5" value="2" />
-          </label>
-          <label>
-            Quantidade
-            <input id="qtyInput" type="number" min="1" max="100" value="1" />
-          </label>
-        </div>
-
-        <div class="grid-2">
-          <label>
-            Material
-            <select id="materialSelect"></select>
-          </label>
-          <label>
-            Acabamento
-            <select id="finishSelect"></select>
-          </label>
-        </div>
-
-        <div class="grid-2">
-          <label>
-            Iluminação
-            <select id="lightSelect">
-              <option value="none">Sem iluminação</option>
-              <option value="front">Frontal</option>
-              <option value="halo">Halo (backlight)</option>
-              <option value="front_halo">Frontal + Halo</option>
-            </select>
-          </label>
-          <label>
-            Cor da luz
-            <input id="lightColorInput" type="color" value="#ffffff" />
-          </label>
-        </div>
-
-        <div class="grid-2">
-          <label>
-            Inclinação
-            <input id="tiltInput" type="range" min="-20" max="20" value="6" />
-          </label>
-          <label>
-            Escala do preview
-            <input id="scaleInput" type="range" min="0.4" max="1.8" step="0.1" value="1" />
-          </label>
-        </div>
-
-        <label>
-          Cor da face
-          <input id="faceColorInput" type="color" value="#f8f8f8" />
-        </label>
+    <main class="workspace">
+      <section class="viewport-wrap">
+        <canvas id="previewCanvas" width="1400" height="860"></canvas>
       </section>
 
-      <section class="panel preview">
-        <div class="preview-head">
-          <h2>Preview</h2>
-          <button id="downloadBtn" class="btn">Exportar PNG</button>
-        </div>
-        <canvas id="previewCanvas" width="980" height="420"></canvas>
-        <p class="hint">Dica: arraste no preview para mover o texto.</p>
-      </section>
+      <aside class="sidebar">
+        <div class="scroll">
+          <div class="control-group">
+            <label>Text</label>
+            <input id="textInput" type="text" maxlength="40" value="LETTER MAKER" />
+          </div>
 
-      <section class="panel pricing">
-        <h2>Estimativa</h2>
-        <table>
-          <tbody>
-            <tr><th>Área estimada (m²)</th><td id="areaOut"></td></tr>
-            <tr><th>Custo material</th><td id="materialOut"></td></tr>
-            <tr><th>Custo iluminação</th><td id="lightOut"></td></tr>
-            <tr><th>Acabamento</th><td id="finishOut"></td></tr>
-            <tr><th>Subtotal</th><td id="subtotalOut"></td></tr>
-            <tr><th>Margem + instalação</th><td id="marginOut"></td></tr>
-            <tr class="total"><th>Total</th><td id="totalOut"></td></tr>
-          </tbody>
-        </table>
-        <button id="copyBtn" class="btn secondary">Copiar orçamento</button>
-        <label>
-          Presets salvos
-          <select id="presetSelect">
-            <option value="">Selecione um preset</option>
-          </select>
-        </label>
-      </section>
+          <div class="row-2">
+            <div class="control-group">
+              <label>Font</label>
+              <select id="fontSelect">
+                <option value="'Montserrat', sans-serif">Montserrat</option>
+                <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+                <option value="'Arial Black', sans-serif">Arial Black</option>
+                <option value="'Roboto Slab', serif">Roboto Slab</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <label>Alignment</label>
+              <select id="alignSelect">
+                <option value="center">Center</option>
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+              </select>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="control-group slider">
+            <div class="line"><label>Letter Height (mm)</label><input id="heightInput" type="number" min="50" max="2000" value="350" /></div>
+            <input id="heightRange" type="range" min="50" max="2000" value="350" />
+          </div>
+
+          <div class="control-group slider">
+            <div class="line"><label>Depth (mm)</label><input id="depthInput" type="number" min="20" max="400" value="80" /></div>
+            <input id="depthRange" type="range" min="20" max="400" value="80" />
+          </div>
+
+          <div class="control-group slider">
+            <div class="line"><label>Spacing (mm)</label><input id="spacingInput" type="number" min="0" max="200" step="5" value="20" /></div>
+            <input id="spacingRange" type="range" min="0" max="200" step="5" value="20" />
+          </div>
+
+          <div class="control-group slider">
+            <div class="line"><label>Wall Thickness (mm)</label><input id="wallInput" type="number" min="1" max="10" value="2" /></div>
+            <input id="wallRange" type="range" min="1" max="10" value="2" />
+          </div>
+
+          <div class="control-group slider">
+            <div class="line"><label>Acrylic Thickness (mm)</label><input id="acrylicInput" type="number" min="2" max="10" step="0.1" value="3.1" /></div>
+            <input id="acrylicRange" type="range" min="2" max="10" step="0.1" value="3.1" />
+          </div>
+
+          <hr />
+
+          <div class="row-2">
+            <div class="control-group">
+              <label>Material</label>
+              <select id="materialSelect"></select>
+            </div>
+            <div class="control-group">
+              <label>Finish</label>
+              <select id="finishSelect"></select>
+            </div>
+          </div>
+
+          <div class="row-2">
+            <div class="control-group">
+              <label>Lighting</label>
+              <select id="lightSelect">
+                <option value="none">None</option>
+                <option value="front">Front-lit</option>
+                <option value="halo">Halo</option>
+                <option value="front_halo">Front + Halo</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <label>Light Color</label>
+              <input id="lightColorInput" type="color" value="#ffffff" />
+            </div>
+          </div>
+
+          <div class="row-2">
+            <div class="control-group">
+              <label>Face Color</label>
+              <input id="faceColorInput" type="color" value="#f8f8f8" />
+            </div>
+            <div class="control-group">
+              <label>Quantity</label>
+              <input id="qtyInput" type="number" min="1" max="100" value="1" />
+            </div>
+          </div>
+
+          <div class="row-2">
+            <div class="control-group">
+              <label>Tilt</label>
+              <input id="tiltInput" type="range" min="-20" max="20" value="6" />
+            </div>
+            <div class="control-group">
+              <label>Preview Scale</label>
+              <input id="scaleInput" type="range" min="0.4" max="1.8" step="0.1" value="1" />
+            </div>
+          </div>
+
+          <div class="row-2">
+            <button id="centerBtn" class="btn light">Center on stage</button>
+            <button id="downloadBtn" class="btn">Export PNG</button>
+          </div>
+
+          <details open class="pricing-box">
+            <summary>Estimate</summary>
+            <table>
+              <tbody>
+                <tr><th>Area estimate</th><td id="areaOut"></td></tr>
+                <tr><th>Material cost</th><td id="materialOut"></td></tr>
+                <tr><th>Lighting cost</th><td id="lightOut"></td></tr>
+                <tr><th>Finish cost</th><td id="finishOut"></td></tr>
+                <tr><th>Subtotal</th><td id="subtotalOut"></td></tr>
+                <tr><th>Margin + install</th><td id="marginOut"></td></tr>
+                <tr class="total"><th>Total</th><td id="totalOut"></td></tr>
+              </tbody>
+            </table>
+          </details>
+
+          <div class="row-2">
+            <button id="copyBtn" class="btn light">Copy Quote</button>
+            <button id="savePresetBtn" class="btn light">Save Preset</button>
+          </div>
+
+          <div class="control-group">
+            <label>Saved presets</label>
+            <select id="presetSelect">
+              <option value="">Select a preset</option>
+            </select>
+          </div>
+        </div>
+      </aside>
     </main>
 
-    <script src="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@600;700&family=Roboto+Slab:wght@600&display=swap"></script>
+    <footer class="statusbar">
+      <span>File: none uploaded</span>
+      <span>Base: <b>1mm</b></span>
+      <span>Scale: <b>50mm</b></span>
+      <span>Wall: <b id="wallStat">2mm</b></span>
+      <span>Acrylic: <b id="acrylicStat">3.1mm</b></span>
+    </footer>
+
+    <script src="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@500;700&family=Roboto+Slab:wght@600&display=swap"></script>
     <script src="app.js"></script>
   </body>
 </html>
